@@ -10,7 +10,7 @@ export default function PortfolioSelector() {
       <label htmlFor="portfolio" className="text-xs font-medium uppercase tracking-[0.12em] text-neutral-400">
         Portfolio
       </label>
-      <div className="rounded-xl border border-[#252545] bg-[#04040a] px-1 py-1">
+      <div className="rounded-xl border border-[#334155] bg-black px-1 py-1">
         <select
           id="portfolio"
           className="h-9 w-full min-w-55 rounded-lg bg-transparent px-3 text-sm font-medium text-white outline-none focus:ring-0 sm:w-auto"

@@ -23,6 +23,8 @@ type AuthContextValue = {
   authError: string | null;
   login: (payload: LoginRequest) => Promise<void>;
   register: (payload: RegisterRequest) => Promise<void>;
+  loginWithGoogle: () => void;
+  registerWithGoogle: () => void;
   logout: () => void;
   clearAuthError: () => void;
 };
@@ -114,6 +116,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [applyAuthResponse],
   );
 
+  const loginWithGoogle = useCallback(() => {
+    setAuthError(null);
+    window.location.assign(apiClient.getGoogleAuthUrl("login"));
+  }, []);
+
+  const registerWithGoogle = useCallback(() => {
+    setAuthError(null);
+    window.location.assign(apiClient.getGoogleAuthUrl("register"));
+  }, []);
+
   const value = useMemo<AuthContextValue>(
     () => ({
       token,
@@ -123,10 +135,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       authError,
       login,
       register,
+      loginWithGoogle,
+      registerWithGoogle,
       logout,
       clearAuthError,
     }),
-    [token, user, isHydrated, authError, login, register, logout, clearAuthError],
+    [
+      token,
+      user,
+      isHydrated,
+      authError,
+      login,
+      register,
+      loginWithGoogle,
+      registerWithGoogle,
+      logout,
+      clearAuthError,
+    ],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -26,6 +26,11 @@ type AddTxForm = {
   notes: string;
 };
 
+type AddIbkrConnectionForm = {
+  name: string;
+  account_id: string;
+};
+
 const EMPTY_TX: AddTxForm = {
   name: "",
   ticker: "",
@@ -37,6 +42,11 @@ const EMPTY_TX: AddTxForm = {
   trade_date: new Date().toISOString().slice(0, 10),
   asset_type: "Stocks",
   notes: "",
+};
+
+const EMPTY_IBKR_CONNECTION: AddIbkrConnectionForm = {
+  name: "",
+  account_id: "",
 };
 
 function AddTransactionModal({
@@ -76,7 +86,7 @@ function AddTransactionModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-      <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl border border-[#1e1e35] bg-[#07070e] p-6">
+      <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl border border-[#334155] bg-black p-6">
         <h2 className="mb-5 text-lg font-semibold text-white">Add Transaction</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           {[
@@ -97,7 +107,7 @@ function AddTransactionModal({
                 placeholder={placeholder}
                 min={type === "number" ? "0" : undefined}
                 step={type === "number" ? "any" : undefined}
-                className="rounded-lg border border-[#252545] bg-[#04040a] px-3 py-2 text-sm text-white placeholder-neutral-600 focus:outline-none focus:ring-1 focus:ring-[#14b8a6]"
+                className="rounded-lg border border-[#334155] bg-black px-3 py-2 text-sm text-white placeholder-neutral-600 focus:outline-none focus:ring-1 focus:ring-[#14b8a6]"
               />
             </label>
           ))}
@@ -107,7 +117,7 @@ function AddTransactionModal({
             <select
               value={form.trade_type}
               onChange={(e) => setField("trade_type", e.target.value)}
-              className="rounded-lg border border-[#252545] bg-[#04040a] px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#14b8a6]"
+              className="rounded-lg border border-[#334155] bg-black px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#14b8a6]"
             >
               <option value="buy">Buy</option>
               <option value="sell">Sell</option>
@@ -119,7 +129,7 @@ function AddTransactionModal({
             <select
               value={form.asset_type}
               onChange={(e) => setField("asset_type", e.target.value)}
-              className="rounded-lg border border-[#252545] bg-[#04040a] px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#14b8a6]"
+              className="rounded-lg border border-[#334155] bg-black px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#14b8a6]"
             >
               {ASSET_TYPES.map((assetType) => (
                 <option key={assetType} value={assetType}>
@@ -135,7 +145,7 @@ function AddTransactionModal({
               value={form.notes}
               onChange={(e) => setField("notes", e.target.value)}
               rows={2}
-              className="rounded-lg border border-[#252545] bg-[#04040a] px-3 py-2 text-sm text-white placeholder-neutral-600 focus:outline-none focus:ring-1 focus:ring-[#14b8a6]"
+              className="rounded-lg border border-[#334155] bg-black px-3 py-2 text-sm text-white placeholder-neutral-600 focus:outline-none focus:ring-1 focus:ring-[#14b8a6]"
             />
           </label>
 
@@ -146,7 +156,7 @@ function AddTransactionModal({
               type="button"
               onClick={onClose}
               disabled={saving}
-              className="rounded-xl border border-[#252545] px-4 py-2 text-sm text-neutral-400 hover:text-white disabled:opacity-50"
+              className="rounded-xl border border-[#334155] px-4 py-2 text-sm text-neutral-400 hover:text-white disabled:opacity-50"
             >
               Cancel
             </button>
@@ -156,6 +166,96 @@ function AddTransactionModal({
               className="rounded-xl bg-[#14b8a6] px-4 py-2 text-sm font-semibold text-black hover:bg-[#2dd4bf] disabled:opacity-50"
             >
               {saving ? "Saving..." : "Add Transaction"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function AddIbkrConnectionModal({
+  onClose,
+  onSave,
+}: {
+  onClose: () => void;
+  onSave: (form: AddIbkrConnectionForm) => Promise<void>;
+}) {
+  const [form, setForm] = useState<AddIbkrConnectionForm>(EMPTY_IBKR_CONNECTION);
+  const [saving, setSaving] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+
+  function setField(field: keyof AddIbkrConnectionForm, value: string) {
+    setForm((prev) => ({ ...prev, [field]: value }));
+  }
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+
+    if (!form.name.trim() && !form.account_id.trim()) {
+      setFormError("Provide a connection name or an account ID.");
+      return;
+    }
+
+    setSaving(true);
+    setFormError(null);
+    try {
+      await onSave({
+        name: form.name.trim(),
+        account_id: form.account_id.trim(),
+      });
+      onClose();
+    } catch (err) {
+      setFormError(err instanceof Error ? err.message : "Failed to create IBKR connection.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+      <div className="w-full max-w-md rounded-2xl border border-[#334155] bg-black p-6">
+        <h2 className="mb-5 text-lg font-semibold text-white">Connect Interactive Brokers</h2>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+          <label className="flex flex-col gap-1 text-xs text-neutral-400">
+            Connection Name
+            <input
+              type="text"
+              value={form.name}
+              onChange={(e) => setField("name", e.target.value)}
+              placeholder="Primary IBKR"
+              className="rounded-lg border border-[#334155] bg-black px-3 py-2 text-sm text-white placeholder-neutral-600 focus:outline-none focus:ring-1 focus:ring-[#14b8a6]"
+            />
+          </label>
+
+          <label className="flex flex-col gap-1 text-xs text-neutral-400">
+            Account ID
+            <input
+              type="text"
+              value={form.account_id}
+              onChange={(e) => setField("account_id", e.target.value)}
+              placeholder="U1234567"
+              className="rounded-lg border border-[#334155] bg-black px-3 py-2 text-sm text-white placeholder-neutral-600 focus:outline-none focus:ring-1 focus:ring-[#14b8a6]"
+            />
+          </label>
+
+          {formError ? <p className="text-xs text-rose-400">{formError}</p> : null}
+
+          <div className="mt-2 flex justify-end gap-3">
+            <button
+              type="button"
+              onClick={onClose}
+              disabled={saving}
+              className="rounded-xl border border-[#334155] px-4 py-2 text-sm text-neutral-400 hover:text-white disabled:opacity-50"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={saving}
+              className="rounded-xl bg-[#14b8a6] px-4 py-2 text-sm font-semibold text-black hover:bg-[#2dd4bf] disabled:opacity-50"
+            >
+              {saving ? "Connecting..." : "Connect"}
             </button>
           </div>
         </form>
@@ -183,6 +283,7 @@ export default function TransactionsView() {
     loading: ibkrLoading,
     error: ibkrError,
     load: loadIbkrConnections,
+    create: createIbkrConnection,
     getStatus: getIbkrStatus,
   } = useIbkrConnections();
   const [filters, setFilters] = useState<TransactionFiltersState>({
@@ -191,6 +292,7 @@ export default function TransactionsView() {
     year: "All",
   });
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showConnectModal, setShowConnectModal] = useState(false);
   const [selectedConnectionId, setSelectedConnectionId] = useState<number | null>(null);
   const [connectionStatus, setConnectionStatus] = useState<string | null>(null);
   const [importing, setImporting] = useState(false);
@@ -226,14 +328,14 @@ export default function TransactionsView() {
   }, [loadIbkrConnections]);
 
   useEffect(() => {
-    if (ibkrConnections.length === 0) {
+    if ((ibkrConnections?.length ?? 0) === 0) {
       setSelectedConnectionId(null);
       return;
     }
 
-    const exists = ibkrConnections.some((connection) => connection.id === selectedConnectionId);
+    const exists = ibkrConnections?.some((connection) => connection.id === selectedConnectionId);
     if (!exists) {
-      setSelectedConnectionId(ibkrConnections[0].id);
+      setSelectedConnectionId(ibkrConnections?.[0]?.id ?? null);
     }
   }, [ibkrConnections, selectedConnectionId]);
 
@@ -275,6 +377,19 @@ export default function TransactionsView() {
     }
   }, [selectedPortfolioId, selectedConnectionId, importFromIbkr, loadConnectionStatus]);
 
+  const handleConnectIbkr = useCallback(
+    async (form: AddIbkrConnectionForm) => {
+      const payload: Record<string, unknown> = {};
+      if (form.name) payload.name = form.name;
+      if (form.account_id) payload.account_id = form.account_id;
+
+      const created = await createIbkrConnection(payload);
+      setSelectedConnectionId(created.id);
+      setConnectionStatus(`Connected to IBKR${created.name ? `: ${created.name}` : ""}.`);
+    },
+    [createIbkrConnection],
+  );
+
   const rows = useMemo<TransactionViewModel[]>(
     () =>
       items.map((item) => ({
@@ -313,9 +428,9 @@ export default function TransactionsView() {
 
   return (
     <>
-      <div className="w-full flex-1 overflow-y-auto rounded-3xl border border-[#16162a] bg-[#04040a] p-3 sm:p-5">
+      <div className="w-full flex-1 overflow-y-auto rounded-3xl border border-[#334155] bg-black p-3 sm:p-5">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-4">
-          <header className="flex flex-col gap-3 rounded-2xl border border-[#1e1e35] bg-[#07070e] p-4 sm:flex-row sm:items-center sm:justify-between">
+          <header className="flex flex-col gap-3 rounded-2xl border border-[#334155] bg-black p-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Investments</p>
               <h1 className="text-xl font-semibold text-white sm:text-2xl">Transactions</h1>
@@ -324,13 +439,13 @@ export default function TransactionsView() {
               <select
                 value={selectedConnectionId ?? ""}
                 onChange={(event) => setSelectedConnectionId(Number(event.target.value))}
-                disabled={ibkrLoading || ibkrConnections.length === 0}
-                className="rounded-xl border border-[#2a3b73] bg-[#0f1633] px-3 py-2 text-sm text-[#b7c8ff] disabled:cursor-not-allowed disabled:opacity-50"
+                disabled={ibkrLoading || (ibkrConnections?.length ?? 0) === 0}
+                className="rounded-xl border border-[#334155] bg-black px-3 py-2 text-sm text-[#b7c8ff] disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {ibkrConnections.length === 0 ? (
+                {(ibkrConnections?.length ?? 0) === 0 ? (
                   <option value="">No IBKR connections</option>
                 ) : (
-                  ibkrConnections.map((connection) => (
+                  ibkrConnections?.map((connection) => (
                     <option key={connection.id} value={connection.id}>
                       {connection.name ?? connection.account_id ?? `Connection ${connection.id}`}
                     </option>
@@ -341,7 +456,7 @@ export default function TransactionsView() {
                 type="button"
                 onClick={() => void loadConnectionStatus()}
                 disabled={!selectedConnectionId}
-                className="rounded-xl border border-[#2a3b73] bg-[#0f1633] px-4 py-2 text-sm font-semibold text-[#9bb5ff] hover:bg-[#16204a] disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-xl border border-[#334155] bg-black px-4 py-2 text-sm font-semibold text-[#9bb5ff] hover:bg-[#0a0a0a] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Check Status
               </button>
@@ -349,9 +464,16 @@ export default function TransactionsView() {
                 type="button"
                 onClick={handleImportIbkr}
                 disabled={importing || !selectedPortfolioId || !selectedConnectionId}
-                className="rounded-xl border border-[#2a3b73] bg-[#0f1633] px-4 py-2 text-sm font-semibold text-[#9bb5ff] hover:bg-[#16204a] disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-xl border border-[#334155] bg-black px-4 py-2 text-sm font-semibold text-[#9bb5ff] hover:bg-[#0a0a0a] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {importing ? "Importing IBKR..." : "Import from IBKR"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowConnectModal(true)}
+                className="rounded-xl border border-[#14b8a6]/30 bg-[#14b8a6]/10 px-4 py-2 text-sm font-semibold text-[#2dd4bf] hover:bg-[#14b8a6]/20"
+              >
+                Connect IBKR
               </button>
               <button
                 type="button"
@@ -363,17 +485,17 @@ export default function TransactionsView() {
             </div>
           </header>
 
-          {loading ? <p className="rounded-2xl border border-[#1e1e35] bg-[#07070e] p-4 text-sm text-neutral-300">Loading transactions...</p> : null}
+          {loading ? <p className="rounded-2xl border border-[#334155] bg-black p-4 text-sm text-neutral-300">Loading transactions...</p> : null}
           {error ? <p className="rounded-2xl border border-rose-500/20 bg-rose-500/10 p-4 text-sm text-rose-300">{error}</p> : null}
           {ibkrError ? <p className="rounded-2xl border border-rose-500/20 bg-rose-500/10 p-4 text-sm text-rose-300">{ibkrError}</p> : null}
           {connectionStatus ? (
-            <p className="rounded-2xl border border-[#2a3b73]/60 bg-[#0f1633] p-4 text-sm text-[#b7c8ff]">{connectionStatus}</p>
+            <p className="rounded-2xl border border-[#334155]/70 bg-black p-4 text-sm text-[#b7c8ff]">{connectionStatus}</p>
           ) : null}
           {importNotice ? (
-            <p className="rounded-2xl border border-[#2a3b73]/60 bg-[#0f1633] p-4 text-sm text-[#b7c8ff]">{importNotice}</p>
+            <p className="rounded-2xl border border-[#334155]/70 bg-black p-4 text-sm text-[#b7c8ff]">{importNotice}</p>
           ) : null}
           {!importNotice && lastImport ? (
-            <p className="rounded-2xl border border-[#2a3b73]/60 bg-[#0f1633] p-4 text-sm text-[#b7c8ff]">
+            <p className="rounded-2xl border border-[#334155]/70 bg-black p-4 text-sm text-[#b7c8ff]">
               Last IBKR import: Imported {lastImport.imported}, skipped {lastImport.skipped}, failed {lastImport.failed}.
             </p>
           ) : null}
@@ -383,7 +505,7 @@ export default function TransactionsView() {
           <TransactionFilters filters={filters} years={years} onChange={setFilters} />
 
           {!loading && !error && filteredRows.length === 0 ? (
-            <p className="rounded-2xl border border-[#1e1e35] bg-[#07070e] p-4 text-sm text-neutral-300">No transactions match the selected filters.</p>
+            <p className="rounded-2xl border border-[#334155] bg-black p-4 text-sm text-neutral-300">No transactions match the selected filters.</p>
           ) : null}
 
           <TransactionsTable rows={filteredRows} />
@@ -391,6 +513,9 @@ export default function TransactionsView() {
       </div>
 
       {showAddModal && <AddTransactionModal onClose={() => setShowAddModal(false)} onSave={handleAddTransaction} />}
+      {showConnectModal ? (
+        <AddIbkrConnectionModal onClose={() => setShowConnectModal(false)} onSave={handleConnectIbkr} />
+      ) : null}
     </>
   );
 }

@@ -22,7 +22,7 @@ export default function AssetTypePerformanceBars({ positions, loading }: Props) 
     gainPercent: data.total_cost > 0 ? data.total_gain / data.total_cost : 0,
   }));
   return (
-    <section className="rounded-2xl border border-[#1e1e35] bg-[#0f0f18] p-5">
+    <section className="rounded-2xl border border-[#334155] bg-black p-5">
       <header className="mb-4">
         <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Asset type performance</p>
         <h3 className="text-xl font-semibold text-white sm:text-2xl">Relative Gain/Loss by Class</h3>

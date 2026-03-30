@@ -7,6 +7,7 @@ import LandingSecondSection from "./components/landing/secondSection";
 import Image from "next/image";
 import Connections from "./components/landing/connections";
 import Footer from "./components/landing/footer";
+import AppShowcase from "./components/landing/appShowcase";
 
 function Header({ visible }: { visible: boolean }) {
 	return (
@@ -26,23 +27,49 @@ function Header({ visible }: { visible: boolean }) {
 				className="h-8 w-auto"
 			/>
 			<div className="hidden md:block">
-				<ul className="flex flex-row gap-6 text-lg font-bold">
-					<li>Home</li>
-					<li>About</li>
-					<li>Features</li>
-					<li>Support</li>
-					<li>Contact</li>
+				<ul className="flex flex-row gap-6 text-base font-semibold text-white/90">
+					<li>
+						<a href="#landing-hero" className="hover:text-[#FFB95D] transition-colors">
+							Home
+						</a>
+					</li>
+					<li>
+						<a href="#showcase" className="hover:text-[#FFB95D] transition-colors">
+							Features
+						</a>
+					</li>
+					<li>
+						<a href="#about" className="hover:text-[#FFB95D] transition-colors">
+							About
+						</a>
+					</li>
+					<li>
+						<a href="#connections" className="hover:text-[#FFB95D] transition-colors">
+							Integrations
+						</a>
+					</li>
+					<li>
+						<a href="#contact" className="hover:text-[#FFB95D] transition-colors">
+							Contact
+						</a>
+					</li>
 				</ul>
 			</div>
 			<div>
-				<ul className="flex flex-row gap-4 md:gap-6">
+				<ul className="flex flex-row items-center gap-2 md:gap-3">
 					<li>
-						<Link href="/auth/login" className="hover:underline">
+						<Link
+							href="/auth/login"
+							className="rounded-full border border-white/25 px-4 py-2 text-sm font-semibold text-white/85 transition hover:border-white/50 hover:text-white"
+						>
 							Log In
 						</Link>
 					</li>
 					<li>
-						<Link href="/auth/register" className="hover:underline">
+						<Link
+							href="/auth/register"
+							className="rounded-full border border-[#FFB95D]/45 bg-[#FFB95D]/12 px-4 py-2 text-sm font-semibold text-[#FFB95D] transition hover:bg-[#FFB95D]/20"
+						>
 							Sign Up
 						</Link>
 					</li>
@@ -81,8 +108,10 @@ export default function Home() {
 				<Header visible={showHeader} />
 				<LandingHeroClient sectionId="landing-hero" />
 				
-				<LandingSecondSection />
+				
+				<AppShowcase />
 				<Connections />
+				<LandingSecondSection />
 				<Footer />
 				
 			</main>

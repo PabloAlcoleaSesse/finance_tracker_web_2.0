@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import TradingViewChart from "@/app/components/mainApp/charts/tradingViewChart";
 
 type ComparisonChartProps = {
   labels: string[];
@@ -8,18 +9,6 @@ type ComparisonChartProps = {
   benchmark: number[];
   benchmarkSymbol: string;
 };
-
-function toPath(values: number[], width: number, height: number, min: number, max: number) {
-  if (values.length === 0) return "";
-  const range = Math.max(max - min, 1);
-  return values
-    .map((value, index) => {
-      const x = (index / Math.max(values.length - 1, 1)) * width;
-      const y = height - ((value - min) / range) * height;
-      return `${index === 0 ? "M" : "L"}${x.toFixed(2)} ${y.toFixed(2)}`;
-    })
-    .join(" ");
-}
 
 export default function ComparisonChart({ labels, portfolio, benchmark, benchmarkSymbol }: ComparisonChartProps) {
   const [fromLabel, setFromLabel] = useState(labels[0]);
@@ -55,19 +44,34 @@ export default function ComparisonChart({ labels, portfolio, benchmark, benchmar
     setToLabel(labels[nextEnd]);
   }
 
-  const width = 640;
-  const height = 220;
-  const min = Math.min(...filtered.filteredPortfolio, ...filtered.filteredBenchmark) * 0.99;
-  const max = Math.max(...filtered.filteredPortfolio, ...filtered.filteredBenchmark) * 1.01;
-
-  const portfolioPath = toPath(filtered.filteredPortfolio, width, height, min, max);
-  const benchmarkPath = toPath(filtered.filteredBenchmark, width, height, min, max);
+  const tradingSeries = [
+    {
+      id: "benchmark",
+      type: "line" as const,
+      color: "#94a3b8",
+      lineWidth: 2 as const,
+      data: filtered.filteredLabels.map((label, index) => ({
+        time: label,
+        value: filtered.filteredBenchmark[index],
+      })),
+    },
+    {
+      id: "portfolio",
+      type: "line" as const,
+      color: "#14b8a6",
+      lineWidth: 3 as const,
+      data: filtered.filteredLabels.map((label, index) => ({
+        time: label,
+        value: filtered.filteredPortfolio[index],
+      })),
+    },
+  ];
 
   const canGoBack = filtered.start > 0;
   const canGoForward = filtered.end < labels.length - 1;
 
   return (
-    <section className="rounded-2xl border border-[#1e1e35] bg-[#07070e] p-5">
+    <section className="rounded-2xl border border-[#334155] bg-black p-5">
       <header className="mb-4">
         <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Cumulative returns</p>
         <h3 className="text-xl font-semibold text-white sm:text-2xl">Portfolio vs {benchmarkSymbol}</h3>
@@ -77,7 +81,7 @@ export default function ComparisonChart({ labels, portfolio, benchmark, benchmar
         <select
           value={fromLabel}
           onChange={(event) => setFromLabel(event.target.value)}
-          className="rounded-lg border border-[#252545] bg-[#04040a] px-2 py-1 text-xs text-white"
+          className="rounded-lg border border-[#334155] bg-black px-2 py-1 text-xs text-white"
         >
           {labels.map((label) => (
             <option key={label} value={label}>
@@ -89,7 +93,7 @@ export default function ComparisonChart({ labels, portfolio, benchmark, benchmar
         <select
           value={toLabel}
           onChange={(event) => setToLabel(event.target.value)}
-          className="rounded-lg border border-[#252545] bg-[#04040a] px-2 py-1 text-xs text-white"
+          className="rounded-lg border border-[#334155] bg-black px-2 py-1 text-xs text-white"
         >
           {labels.map((label) => (
             <option key={label} value={label}>
@@ -101,7 +105,7 @@ export default function ComparisonChart({ labels, portfolio, benchmark, benchmar
           type="button"
           onClick={() => shiftWindow(-1)}
           disabled={!canGoBack}
-          className="ml-auto rounded-lg border border-[#252545] bg-[#04040a] px-3 py-1 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
+          className="ml-auto rounded-lg border border-[#334155] bg-black px-3 py-1 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
         >
           Back
         </button>
@@ -109,27 +113,13 @@ export default function ComparisonChart({ labels, portfolio, benchmark, benchmar
           type="button"
           onClick={() => shiftWindow(1)}
           disabled={!canGoForward}
-          className="rounded-lg border border-[#252545] bg-[#04040a] px-3 py-1 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-lg border border-[#334155] bg-black px-3 py-1 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
         >
           Next
         </button>
       </div>
-      <div className="overflow-x-auto rounded-2xl border border-[#252545] bg-[#04040a] p-2">
-        <svg viewBox={`0 0 ${width} ${height}`} className="h-56 w-full min-w-140" role="img" aria-label="Benchmark comparison chart">
-          {[0.25, 0.5, 0.75].map((ratio) => (
-            <line
-              key={ratio}
-              x1="0"
-              x2={width}
-              y1={(height * ratio).toFixed(2)}
-              y2={(height * ratio).toFixed(2)}
-              stroke="#1e1e35"
-              strokeWidth="1"
-            />
-          ))}
-          <path d={benchmarkPath} fill="none" stroke="#94a3b8" strokeWidth="2" strokeDasharray="6 6" />
-          <path d={portfolioPath} fill="none" stroke="#14b8a6" strokeWidth="3" />
-        </svg>
+      <div className="overflow-x-auto rounded-2xl border border-[#334155] bg-black p-2 h-56">
+        <TradingViewChart series={tradingSeries} height={220} />
       </div>
       <div className="mt-3 flex items-center justify-between text-xs text-neutral-400">
         <span>{filtered.filteredLabels[0]}</span>

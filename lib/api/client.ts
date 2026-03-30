@@ -10,6 +10,8 @@ import type {
   CreateSnapshotRequest,
   CreateTransactionRequest,
   Dividend,
+  ForgotPasswordRequest,
+  ForgotPasswordResponse,
   LoginRequest,
   PerformanceMetrics,
   Portfolio,
@@ -22,11 +24,17 @@ import type {
   PriceUpdateResponse,
   QueryRange,
   RegisterRequest,
+  ResetPasswordRequest,
+  ResetPasswordResponse,
   IbkrConnection,
   IbkrConnectionStatus,
   TaxHarvestingOpportunity,
   TaxReport,
   Transaction,
+  TwoFactorActionResponse,
+  TwoFactorCodeRequest,
+  TwoFactorSetupResponse,
+  TwoFactorStatusResponse,
   UnrealizedGain,
   UpdateIbkrConnectionRequest,
   UpdatePortfolioRequest,
@@ -42,6 +50,14 @@ type RequestOptions = {
 };
 
 const DEFAULT_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080";
+
+function buildGoogleAuthUrl(mode: "login" | "register"): string {
+  const configuredUrl = process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL?.trim();
+  const baseUrl = configuredUrl && configuredUrl.length > 0 ? configuredUrl : `${DEFAULT_BASE_URL}/api/auth/google`;
+
+  const separator = baseUrl.includes("?") ? "&" : "?";
+  return `${baseUrl}${separator}mode=${mode}`;
+}
 
 function buildNetworkError(path: string, originalError: unknown): ApiError {
   const causeMessage =
@@ -154,6 +170,8 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
 export const apiClient = {
   health: () => request<string>("/health"),
 
+  getGoogleAuthUrl: (mode: "login" | "register") => buildGoogleAuthUrl(mode),
+
   register: (payload: RegisterRequest) =>
     request<AuthResponse>("/api/auth/register", {
       method: "POST",
@@ -164,6 +182,43 @@ export const apiClient = {
     request<AuthResponse>("/api/auth/login", {
       method: "POST",
       body: payload,
+    }),
+
+  forgotPassword: (payload: ForgotPasswordRequest) =>
+    request<ForgotPasswordResponse>("/api/auth/password/forgot", {
+      method: "POST",
+      body: payload,
+    }),
+
+  resetPassword: (payload: ResetPasswordRequest) =>
+    request<ResetPasswordResponse>("/api/auth/password/reset", {
+      method: "POST",
+      body: payload,
+    }),
+
+  getTwoFactorStatus: (token: string) =>
+    request<TwoFactorStatusResponse>("/api/users/me/2fa/status", {
+      token,
+    }),
+
+  setupTwoFactor: (token: string) =>
+    request<TwoFactorSetupResponse>("/api/users/me/2fa/setup", {
+      method: "POST",
+      token,
+    }),
+
+  enableTwoFactor: (payload: TwoFactorCodeRequest, token: string) =>
+    request<TwoFactorActionResponse>("/api/users/me/2fa/enable", {
+      method: "POST",
+      body: payload,
+      token,
+    }),
+
+  disableTwoFactor: (payload: TwoFactorCodeRequest, token: string) =>
+    request<TwoFactorActionResponse>("/api/users/me/2fa/disable", {
+      method: "POST",
+      body: payload,
+      token,
     }),
 
   getUserById: (userId: number, token: string) =>

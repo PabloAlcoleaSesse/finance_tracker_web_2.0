@@ -26,13 +26,13 @@ export default function DrawdownChart({ rows }: DrawdownChartProps) {
   ];
 
   return (
-    <section className="rounded-2xl border border-[#1e1e35] bg-[#07070e] p-5">
+    <section className="rounded-2xl border border-[#334155] bg-black p-5">
       <header className="mb-4">
         <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Drawdowns</p>
         <h3 className="text-xl font-semibold text-white sm:text-2xl">Peak-to-Trough Declines</h3>
       </header>
 
-      <div className="rounded-2xl border border-[#252545] bg-[#04040a] p-2 h-64">
+      <div className="rounded-2xl border border-[#334155] bg-black p-2 h-64">
         <TradingViewChart series={series} height={240} />
       </div>
 

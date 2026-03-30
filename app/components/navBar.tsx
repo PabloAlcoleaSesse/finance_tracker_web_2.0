@@ -37,12 +37,6 @@ const navItems: NavItem[] = [
             { label: "Benchmarks", href: "/mainApp/analytics/benchmarks" },
             { label: "Historic Returns", href: "/mainApp/returns" },
         ]
-    },
-    {
-        label: "Taxes",
-        children: [
-            { label: "Report", href: "/mainApp/tax" },
-        ],
     }
 ];
 
@@ -56,7 +50,7 @@ export default function NavBar() {
     }
 
     return (
-        <div className="flex-1  h-full max-w-[18rem] rounded-4xl bg-[#07070e] justify-between flex-col hidden sm:flex backdrop-blur-sm ">
+        <div className="flex-1  h-full max-w-[18rem] rounded-4xl bg-black justify-between flex-col hidden sm:flex backdrop-blur-sm ">
             <nav className="m-10 flex flex-col">
                 <h1 className="text-3xl font-black">Overview</h1>
                 <ul className="mt-4 flex flex-col gap-2">

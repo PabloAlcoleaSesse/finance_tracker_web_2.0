@@ -323,7 +323,7 @@ export default function LandingHeroClient({ sectionId }: { sectionId?: string })
 				alt="WSPort logo"
 				width={1}
 				height={1}
-				className="absolute left-1/2 top-1/2 z-10 w-[min(86vw,50rem)] -translate-x-1/2 -translate-y-1/2"
+				className="absolute left-1/2 top-1/2 z-10 w-[min(74vw,42rem)] -translate-x-1/2 -translate-y-1/2"
 			/>
 			<p ref={paragraphRef} className="absolute bottom-[20%] z-20 max-w-[min(90vw,64rem)] px-4 text-2xl font-sans font-regular text-white sm:text-3xl md:text-4xl">
 				{sentenceParts.map((part, partIndex) => {

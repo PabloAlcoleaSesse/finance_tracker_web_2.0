@@ -12,6 +12,11 @@
     }
 }
 
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+}
+
 body {
     background: var(--background);
     color: var(--foreground);
@@ -26,7 +31,7 @@ body {
     background:
         radial-gradient(circle at 20% 15%, rgba(255, 185, 93, 0.18), transparent 45%),
         radial-gradient(circle at 85% 80%, rgba(90, 180, 255, 0.16), transparent 50%),
-        #05050b;
+        #000000;
     transition: opacity 320ms ease;
 }
 
@@ -76,7 +81,7 @@ body {
     background:
         radial-gradient(circle at 18% 22%, rgba(255, 185, 93, 0.2), transparent 42%),
         radial-gradient(circle at 82% 78%, rgba(120, 219, 255, 0.2), transparent 38%),
-        linear-gradient(120deg, #07070f 0%, #0d1121 34%, #17122a 66%, #0a0f1d 100%);
+        linear-gradient(120deg, #000000 0%, #05080f 34%, #070b13 66%, #000000 100%);
     background-size: 160% 160%, 180% 180%, 300% 300%;
     animation: heroGradientShift 18s ease-in-out infinite;
 }
@@ -95,11 +100,11 @@ body {
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    background-color: #0a1020;
+    background-color: #000000;
     background-image:
         radial-gradient(circle at 18% 22%, rgba(255, 185, 93, 0.3), transparent 46%),
         radial-gradient(circle at 82% 78%, rgba(120, 219, 255, 0.28), transparent 42%),
-        linear-gradient(120deg, #07070f 0%, #0f1731 34%, #1b1533 66%, #0b1327 100%);
+        linear-gradient(120deg, #000000 0%, #060b16 34%, #091120 66%, #000000 100%);
     background-size: 160% 160%, 180% 180%, 300% 300%;
     animation: heroGradientShift 18s ease-in-out infinite;
 }
@@ -256,4 +261,34 @@ body {
     100% {
         transform: rotate(360deg);
     }
+}
+
+.mainapp-card-soft .bg-black {
+    background-color: #111111;
+}
+
+.mainapp-card-soft .rounded-3xl.bg-black,
+.mainapp-card-soft .rounded-2xl.bg-black {
+    background-color: #171717;
+}
+
+.mainapp-card-soft .rounded-xl.bg-black,
+.mainapp-card-soft .rounded-lg.bg-black {
+    background-color: #0b0b0b;
+}
+
+.mainapp-card-soft .rounded-3xl.bg-black .rounded-2xl.bg-black,
+.mainapp-card-soft .rounded-2xl.bg-black .rounded-2xl.bg-black,
+.mainapp-card-soft .rounded-2xl.bg-black .rounded-xl.bg-black,
+.mainapp-card-soft .rounded-2xl.bg-black .rounded-lg.bg-black {
+    background-color: #080808;
+}
+
+.mainapp-card-soft .border-\[\#334155\],
+.mainapp-card-soft .border-\[\#334155\]\/70 {
+    border-color: transparent;
+}
+
+.mainapp-shell-black {
+    background-color: #000000 !important;
 }

@@ -31,7 +31,7 @@ export default function PortfolioSettings({ name, currency, onSave }: PortfolioS
   }
 
   return (
-    <section className="rounded-2xl border border-[#1e1e35] bg-[#07070e] p-5">
+    <section className="rounded-2xl border border-[#334155] bg-black p-5">
       <header className="mb-4">
         <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Portfolio</p>
         <h2 className="text-xl font-semibold text-white sm:text-2xl">Portfolio Settings</h2>
@@ -40,7 +40,7 @@ export default function PortfolioSettings({ name, currency, onSave }: PortfolioS
         <label className="flex flex-col gap-1 text-sm text-neutral-300">
           Portfolio Name
           <input
-            className="rounded-xl border border-[#252545] bg-[#04040a] px-3 py-2 text-white"
+            className="rounded-xl border border-[#334155] bg-black px-3 py-2 text-white"
             value={editName}
             onChange={(e) => setEditName(e.target.value)}
           />
@@ -48,7 +48,7 @@ export default function PortfolioSettings({ name, currency, onSave }: PortfolioS
         <label className="flex flex-col gap-1 text-sm text-neutral-300">
           Base Currency
           <select
-            className="rounded-xl border border-[#252545] bg-[#04040a] px-3 py-2 text-white"
+            className="rounded-xl border border-[#334155] bg-black px-3 py-2 text-white"
             value={editCurrency}
             onChange={(e) => setEditCurrency(e.target.value)}
           >

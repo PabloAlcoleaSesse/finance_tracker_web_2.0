@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import type { PortfolioSnapshot } from "@/lib/api/types";
+import TradingViewChart from "@/app/components/mainApp/charts/tradingViewChart";
 
 type Props = {
   snapshots30D: PortfolioSnapshot[];
@@ -17,18 +18,6 @@ const currency = new Intl.NumberFormat("en-IE", {
   minimumFractionDigits: 0,
   maximumFractionDigits: 0,
 });
-
-function toPath(values: number[], width: number, height: number, min: number, max: number) {
-  if (values.length === 0) return "";
-  const range = Math.max(max - min, 1);
-  return values
-    .map((value, index) => {
-      const x = (index / Math.max(values.length - 1, 1)) * width;
-      const y = height - ((value - min) / range) * height;
-      return `${index === 0 ? "M" : "L"}${x.toFixed(2)} ${y.toFixed(2)}`;
-    })
-    .join(" ");
-}
 
 export default function PerformanceChart({ snapshots30D, snapshots90D, snapshots365D, loading, onRangeChange }: Props) {
   const [activeRange, setActiveRange] = useState<"30D" | "90D" | "365D">("30D");
@@ -65,25 +54,32 @@ export default function PerformanceChart({ snapshots30D, snapshots90D, snapshots
   }
 
   const portfolioValues = filteredData.map((item) => item.total_value);
-  const all = [...portfolioValues];
-  const min = all.length > 0 ? Math.min(...all) * 0.98 : 0;
-  const max = all.length > 0 ? Math.max(...all) * 1.02 : 1;
-
-  const width = 600;
-  const height = 240;
-  const portfolioPath = toPath(portfolioValues, width, height, min, max);
+  const tradingSeries = filteredData.length > 0
+    ? [
+        {
+          id: "portfolio",
+          type: "line" as const,
+          color: "#14b8a6",
+          lineWidth: 3 as const,
+          data: filteredData.map((item) => ({
+            time: item.date,
+            value: item.total_value,
+          })),
+        },
+      ]
+    : [];
 
   const canGoBack = firstVisibleIndex > 0;
   const canGoForward = lastVisibleIndex < data.length - 1;
 
   return (
-    <section className="rounded-2xl border border-[#1e1e35] bg-[#07070e] p-5">
+    <section className="rounded-2xl border border-[#334155] bg-black p-5">
       <header className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Performance</p>
           <h3 className="text-xl font-semibold text-white sm:text-2xl">Portfolio Value Trend</h3>
         </div>
-        <div className="inline-flex rounded-xl border border-[#252545] bg-[#04040a] p-1 text-xs font-medium text-neutral-300">
+        <div className="inline-flex rounded-xl border border-[#334155] bg-black p-1 text-xs font-medium text-neutral-300">
           {(["30D", "90D", "365D"] as const).map((range) => (
             <button
               key={range}
@@ -115,7 +111,7 @@ export default function PerformanceChart({ snapshots30D, snapshots90D, snapshots
             <select
               value={fromDate}
               onChange={(event) => setFromDate(event.target.value)}
-              className="rounded-lg border border-[#252545] bg-[#04040a] px-2 py-1 text-xs text-white"
+              className="rounded-lg border border-[#334155] bg-black px-2 py-1 text-xs text-white"
             >
               {dateList.map((d) => (
                 <option key={d} value={d}>{d}</option>
@@ -125,7 +121,7 @@ export default function PerformanceChart({ snapshots30D, snapshots90D, snapshots
             <select
               value={toDate}
               onChange={(event) => setToDate(event.target.value)}
-              className="rounded-lg border border-[#252545] bg-[#04040a] px-2 py-1 text-xs text-white"
+              className="rounded-lg border border-[#334155] bg-black px-2 py-1 text-xs text-white"
             >
               {dateList.map((d) => (
                 <option key={d} value={d}>{d}</option>
@@ -135,7 +131,7 @@ export default function PerformanceChart({ snapshots30D, snapshots90D, snapshots
               type="button"
               onClick={() => shiftWindow(-1)}
               disabled={!canGoBack}
-              className="ml-auto rounded-lg border border-[#252545] bg-[#04040a] px-3 py-1 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
+              className="ml-auto rounded-lg border border-[#334155] bg-black px-3 py-1 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
             >
               Back
             </button>
@@ -143,28 +139,15 @@ export default function PerformanceChart({ snapshots30D, snapshots90D, snapshots
               type="button"
               onClick={() => shiftWindow(1)}
               disabled={!canGoForward}
-              className="rounded-lg border border-[#252545] bg-[#04040a] px-3 py-1 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-lg border border-[#334155] bg-black px-3 py-1 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
             >
               Next
             </button>
           </div>
 
           <div className="space-y-4">
-            <div className="overflow-x-auto rounded-2xl border border-[#252545] bg-[#04040a] p-2">
-              <svg viewBox={`0 0 ${width} ${height}`} className="h-60 w-full min-w-140" role="img" aria-label="Portfolio line chart">
-                {[0.25, 0.5, 0.75].map((ratio) => (
-                  <line
-                    key={ratio}
-                    x1="0"
-                    x2={width}
-                    y1={(height * ratio).toFixed(2)}
-                    y2={(height * ratio).toFixed(2)}
-                    stroke="#1e1e35"
-                    strokeWidth="1"
-                  />
-                ))}
-                <path d={portfolioPath} fill="none" stroke="#14b8a6" strokeWidth="3" />
-              </svg>
+            <div className="overflow-x-auto rounded-2xl border border-[#334155] bg-black p-2 h-60">
+              <TradingViewChart series={tradingSeries} height={240} />
             </div>
 
             <div className="flex flex-wrap items-center gap-4 text-sm text-neutral-300">

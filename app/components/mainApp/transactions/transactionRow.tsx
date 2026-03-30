@@ -9,7 +9,7 @@ export default function TransactionRow({ transaction }: TransactionRowProps) {
   const buy = transaction.trade_type === "BUY";
 
   return (
-    <tr className="border-t border-[#1e1e35] text-neutral-200">
+    <tr className="border-t border-[#334155] text-neutral-200">
       <td className="px-4 py-3 text-sm text-neutral-300">{transaction.trade_date}</td>
       <td className="px-4 py-3">
         <p className="font-semibold text-white">{transaction.ticker}</p>

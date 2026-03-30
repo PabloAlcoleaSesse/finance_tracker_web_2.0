@@ -12,14 +12,14 @@ export default function TopPositionsTable({ positions, loading }: Props) {
 
   if (loading && sorted.length === 0) {
     return (
-      <section className="rounded-2xl border border-[#1e1e35] bg-[#07070e] p-5">
+      <section className="rounded-2xl border border-[#334155] bg-black p-5">
         <p className="text-sm text-neutral-400">Loading positions&hellip;</p>
       </section>
     );
   }
 
   return (
-    <section className="rounded-2xl border border-[#1e1e35] bg-[#07070e] p-5">
+    <section className="rounded-2xl border border-[#334155] bg-black p-5">
       <header className="mb-4 flex items-end justify-between">
         <div>
           <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Top positions</p>
@@ -31,9 +31,9 @@ export default function TopPositionsTable({ positions, loading }: Props) {
       {sorted.length === 0 ? (
         <p className="text-sm text-neutral-500">No positions yet.</p>
       ) : (
-        <div className="overflow-x-auto rounded-2xl border border-[#252545]">
+        <div className="overflow-x-auto rounded-2xl border border-[#334155]">
           <table className="min-w-full text-left text-sm">
-            <thead className="bg-[#04040a] text-xs uppercase tracking-[0.12em] text-neutral-400">
+            <thead className="bg-black text-xs uppercase tracking-[0.12em] text-neutral-400">
               <tr>
                 <th className="px-4 py-3">Ticker / Name</th>
                 <th className="px-4 py-3">Shares</th>
@@ -46,7 +46,7 @@ export default function TopPositionsTable({ positions, loading }: Props) {
               {sorted.map((row) => {
                 const positive = row.gain >= 0;
                 return (
-                  <tr key={row.id} className="border-t border-[#1e1e35] text-neutral-200">
+                  <tr key={row.id} className="border-t border-[#334155] text-neutral-200">
                     <td className="px-4 py-3">
                       <p className="font-semibold text-white">{row.ticker}</p>
                       <p className="text-xs text-neutral-400">{row.name}</p>

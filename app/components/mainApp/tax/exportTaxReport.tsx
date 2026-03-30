@@ -1,6 +1,6 @@
 export default function ExportTaxReport() {
   return (
-    <section className="rounded-2xl border border-[#1e1e35] bg-[#07070e] p-5">
+    <section className="rounded-2xl border border-[#334155] bg-black p-5">
       <header className="mb-3">
         <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Export</p>
         <h3 className="text-xl font-semibold text-white sm:text-2xl">Tax Report Export</h3>
@@ -15,7 +15,7 @@ export default function ExportTaxReport() {
         </button>
         <button
           type="button"
-          className="rounded-xl border border-[#252545] bg-[#04040a] px-4 py-2 text-sm font-semibold text-white"
+          className="rounded-xl border border-[#334155] bg-black px-4 py-2 text-sm font-semibold text-white"
         >
           Export CSV
         </button>

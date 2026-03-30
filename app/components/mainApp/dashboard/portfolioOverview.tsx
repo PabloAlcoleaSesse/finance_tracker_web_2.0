@@ -18,7 +18,7 @@ export default function PortfolioOverview({ summary, loading }: Props) {
         }).format(value);
 
     return (
-        <section className="w-full rounded-2xl border border-[#1e1e35] bg-[#07070e] p-5">
+        <section className="w-full rounded-2xl border border-[#334155] bg-black p-5">
             <div className="space-y-5">
                 <header className="space-y-2">
                     <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Portfolio overview</p>
@@ -36,17 +36,17 @@ export default function PortfolioOverview({ summary, loading }: Props) {
 
                 {summary && (
                     <div className="grid gap-3 sm:grid-cols-2">
-                        <article className="rounded-2xl border border-[#252545] bg-[#04040a] p-4">
+                        <article className="rounded-2xl border border-[#334155] bg-black p-4">
                             <p className="text-xs uppercase tracking-[0.16em] text-neutral-400">Total Value</p>
                             <p className="mt-2 text-2xl font-black text-white">{formatCurrency(summary.total_value)}</p>
                         </article>
 
-                        <article className="rounded-2xl border border-[#252545] bg-[#04040a] p-4">
+                        <article className="rounded-2xl border border-[#334155] bg-black p-4">
                             <p className="text-xs uppercase tracking-[0.16em] text-neutral-400">Total Cost</p>
                             <p className="mt-2 text-2xl font-black text-white">{formatCurrency(summary.total_cost)}</p>
                         </article>
 
-                        <article className="rounded-2xl border border-[#14b8a6]/25 bg-[#04040a] p-4 sm:col-span-2">
+                        <article className="rounded-2xl border border-[#14b8a6]/25 bg-black p-4 sm:col-span-2">
                             <div className="flex items-center justify-between gap-3">
                                 <div>
                                     <p className="text-xs uppercase tracking-[0.16em] text-neutral-400">Total Gain</p>

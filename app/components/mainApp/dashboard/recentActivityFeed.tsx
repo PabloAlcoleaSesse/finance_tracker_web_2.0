@@ -11,7 +11,7 @@ export default function RecentActivityFeed({ transactions, loading }: Props) {
   const recent = transactions.slice(0, 10);
 
   return (
-    <section className="rounded-2xl border border-[#1e1e35] bg-[#07070e] p-5">
+    <section className="rounded-2xl border border-[#334155] bg-black p-5">
       <header className="mb-4">
         <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Recent activity</p>
         <h3 className="text-xl font-semibold text-white sm:text-2xl">Latest Transactions</h3>
@@ -29,7 +29,7 @@ export default function RecentActivityFeed({ transactions, loading }: Props) {
         {recent.map((tx) => {
           const isBuy = tx.trade_type === "buy";
           return (
-            <li key={tx.id} className="rounded-2xl border border-[#252545] bg-[#04040a] p-4">
+            <li key={tx.id} className="rounded-2xl border border-[#334155] bg-black p-4">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-sm font-semibold text-white">{tx.name} <span className="text-neutral-400">({tx.ticker})</span></p>

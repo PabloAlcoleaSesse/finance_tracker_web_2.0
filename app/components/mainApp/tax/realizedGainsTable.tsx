@@ -18,14 +18,14 @@ type RealizedGainsTableProps = {
 
 export default function RealizedGainsTable({ rows }: RealizedGainsTableProps) {
   return (
-    <section className="rounded-2xl border border-[#1e1e35] bg-[#07070e] p-5">
+    <section className="rounded-2xl border border-[#334155] bg-black p-5">
       <header className="mb-4">
         <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Realized gains</p>
         <h3 className="text-xl font-semibold text-white sm:text-2xl">Closed Positions</h3>
       </header>
-      <div className="overflow-x-auto rounded-2xl border border-[#252545]">
+      <div className="overflow-x-auto rounded-2xl border border-[#334155]">
         <table className="min-w-full text-left text-sm">
-          <thead className="bg-[#04040a] text-xs uppercase tracking-[0.12em] text-neutral-400">
+          <thead className="bg-black text-xs uppercase tracking-[0.12em] text-neutral-400">
             <tr>
               <th className="px-4 py-3">Ticker</th>
               <th className="px-4 py-3">Qty</th>
@@ -37,7 +37,7 @@ export default function RealizedGainsTable({ rows }: RealizedGainsTableProps) {
           </thead>
           <tbody>
             {rows.map((row) => (
-              <tr key={`${row.ticker}-${row.sale_date}`} className="border-t border-[#1e1e35] text-neutral-200">
+              <tr key={`${row.ticker}-${row.sale_date}`} className="border-t border-[#334155] text-neutral-200">
                 <td className="px-4 py-3 font-semibold text-white">{row.ticker}</td>
                 <td className="px-4 py-3">{row.quantity}</td>
                 <td className="px-4 py-3">{eur.format(row.cost_basis)}</td>

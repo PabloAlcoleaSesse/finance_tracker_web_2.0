@@ -22,7 +22,7 @@ export default function Connections() {
 	const marqueeItems = Array.from({ length: repeatCount }, () => connectedLogos).flat();
 
 	return (
-		<section className="w-full px-6 py-10 sm:px-8 lg:px-16" id="connections">
+		<section className="w-full px-6 pt-20 pb-0 sm:px-8 lg:px-16" id="connections">
 			<p className="mx-auto max-w-3xl text-center font-serif font-bold text-5xl text-[#FFB95D]">
                 Mile is Connected 
             </p>

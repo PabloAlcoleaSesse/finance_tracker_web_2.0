@@ -7,7 +7,7 @@ const periods: Array<"Daily" | "Weekly" | "Monthly" | "Yearly"> = ["Daily", "Wee
 
 export default function ReturnsPeriodSelector({ selected, onSelect }: ReturnsPeriodSelectorProps) {
   return (
-    <div className="inline-flex rounded-xl border border-[#252545] bg-[#04040a] p-1 text-xs font-medium text-neutral-300">
+    <div className="inline-flex rounded-xl border border-[#334155] bg-black p-1 text-xs font-medium text-neutral-300">
       {periods.map((period) => (
         <button
           key={period}

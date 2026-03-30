@@ -1,7 +1,7 @@
 import type { PositionWithMetrics } from "@/lib/api/types";
 
 type Props = {
-  positions: PositionWithMetrics[];
+  positions?: PositionWithMetrics[];
   loading?: boolean;
 };
 
@@ -22,7 +22,7 @@ const formatCurrency = (value: number) =>
     maximumFractionDigits: 2,
   }).format(value);
 
-export default function AssetAllocationChart({ positions, loading }: Props) {
+export default function AssetAllocationChart({ positions = [], loading }: Props) {
   // Derive by asset type from positions
   const byType = positions.reduce(
     (acc, p, index) => {
@@ -61,7 +61,7 @@ export default function AssetAllocationChart({ positions, loading }: Props) {
       : "conic-gradient(#1e1e35 0% 100%)";
 
   return (
-    <section className="w-full rounded-2xl border border-[#1e1e35] bg-[#07070e] p-5">
+    <section className="w-full rounded-2xl border border-[#334155] bg-black p-5">
       <div className="space-y-5">
         <header className="space-y-2">
           <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Asset allocation</p>
@@ -76,10 +76,10 @@ export default function AssetAllocationChart({ positions, loading }: Props) {
           <div className="grid gap-6 lg:grid-cols-[220px_1fr] lg:items-center">
             <div className="mx-auto">
               <div
-                className="grid h-52 w-52 place-items-center rounded-full border border-[#252545]"
+                className="grid h-52 w-52 place-items-center rounded-full border border-[#334155]"
                 style={{ backgroundImage: donutBackground }}
               >
-                <div className="grid h-28 w-28 place-items-center rounded-full bg-[#07070e] ring-1 ring-[#252545]">
+                <div className="grid h-28 w-28 place-items-center rounded-full bg-black ring-1 ring-[#334155]">
                   <div className="text-center">
                     <p className="text-xs uppercase tracking-[0.14em] text-neutral-400">Total</p>
                     <p className="text-sm font-bold text-white">{formatCurrency(total)}</p>
@@ -92,7 +92,7 @@ export default function AssetAllocationChart({ positions, loading }: Props) {
               {slices.map((slice) => (
                 <li
                   key={slice.name}
-                  className="flex items-center justify-between rounded-2xl border border-[#252545] bg-[#04040a] px-4 py-3"
+                  className="flex items-center justify-between rounded-2xl border border-[#334155] bg-black px-4 py-3"
                 >
                   <div className="flex items-center gap-3">
                     <span

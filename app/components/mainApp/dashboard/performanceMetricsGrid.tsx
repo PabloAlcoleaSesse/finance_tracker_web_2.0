@@ -14,7 +14,7 @@ type Card = {
 function toneClasses(tone: Card["tone"]) {
   if (tone === "good") return "border-[#14b8a6]/30 text-[#2dd4bf]";
   if (tone === "warn") return "border-rose-500/30 text-rose-300";
-  return "border-[#252545] text-white";
+  return "border-[#334155] text-white";
 }
 
 function pct(value: number) {
@@ -35,7 +35,7 @@ export default function PerformanceMetricsGrid({ metrics, loading }: Props) {
     : [];
 
   return (
-    <section className="rounded-2xl border border-[#1e1e35] bg-[#07070e] p-5">
+    <section className="rounded-2xl border border-[#334155] bg-black p-5">
       <header className="mb-4">
         <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Performance metrics</p>
         <h3 className="text-xl font-semibold text-white sm:text-2xl">Risk and Return Snapshot</h3>
@@ -51,7 +51,7 @@ export default function PerformanceMetricsGrid({ metrics, loading }: Props) {
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {cards.map((card) => (
-          <article key={card.label} className={`rounded-2xl border bg-[#04040a] p-4 ${toneClasses(card.tone)}`}>
+          <article key={card.label} className={`rounded-2xl border bg-black p-4 ${toneClasses(card.tone)}`}>
             <p className="text-xs uppercase tracking-[0.14em] text-neutral-400">{card.label}</p>
             <p className="mt-2 text-2xl font-semibold">{card.value}</p>
           </article>

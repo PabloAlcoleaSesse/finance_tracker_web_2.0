@@ -229,6 +229,43 @@ export type RegisterRequest = {
 export type LoginRequest = {
   email: string;
   password: string;
+  two_factor_code?: string;
+};
+
+export type TwoFactorStatusResponse = {
+  enabled: boolean;
+};
+
+export type TwoFactorSetupResponse = {
+  secret: string;
+  otpauth_url: string;
+};
+
+export type TwoFactorCodeRequest = {
+  code: string;
+};
+
+export type TwoFactorActionResponse = {
+  status: string;
+};
+
+export type ForgotPasswordRequest = {
+  email: string;
+};
+
+export type ForgotPasswordResponse = {
+  status?: string;
+  message?: string;
+};
+
+export type ResetPasswordRequest = {
+  token: string;
+  new_password: string;
+};
+
+export type ResetPasswordResponse = {
+  status?: string;
+  message?: string;
 };
 
 export type CreatePortfolioRequest = {

@@ -22,7 +22,7 @@ export default function TaxSummary({ summary }: TaxSummaryProps) {
   ];
 
   return (
-    <section className="rounded-2xl border border-[#1e1e35] bg-[#07070e] p-5">
+    <section className="rounded-2xl border border-[#334155] bg-black p-5">
       <header className="mb-4">
         <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Tax summary</p>
         <h2 className="text-xl font-semibold text-white sm:text-2xl">Annual Fiscal Overview</h2>
@@ -31,7 +31,7 @@ export default function TaxSummary({ summary }: TaxSummaryProps) {
         {cards.map((card) => {
           const positive = card.value >= 0;
           return (
-            <article key={card.label} className="rounded-2xl border border-[#252545] bg-[#04040a] p-4">
+            <article key={card.label} className="rounded-2xl border border-[#334155] bg-black p-4">
               <p className="text-xs uppercase tracking-[0.14em] text-neutral-400">{card.label}</p>
               <p className={`mt-2 text-2xl font-semibold ${positive ? "text-[#2dd4bf]" : "text-rose-300"}`}>
                 {eur.format(card.value)}

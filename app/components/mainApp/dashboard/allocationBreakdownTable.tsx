@@ -87,9 +87,9 @@ function computeAggregatedRows(rows: Row[]) {
 
 function BreakdownTable({ rows }: { rows: Row[] }) {
   return (
-    <div className="overflow-x-auto rounded-2xl border border-[#252545] bg-[#04040a]">
+    <div className="overflow-x-auto rounded-2xl border border-[#334155] bg-black">
       <table className="min-w-full text-left">
-        <thead className="bg-[#07070e] text-neutral-300">
+        <thead className="bg-black text-neutral-300">
           <tr>
             <th className="px-4 py-3 text-xs font-semibold uppercase tracking-[0.12em]">Type</th>
             <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-[0.12em]">Cost</th>
@@ -100,7 +100,7 @@ function BreakdownTable({ rows }: { rows: Row[] }) {
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={row.label} className="border-t border-[#1e1e35] text-neutral-200">
+            <tr key={row.label} className="border-t border-[#334155] text-neutral-200">
               <td className="px-4 py-3 font-semibold text-white">{row.label}</td>
               <td className="px-4 py-3 text-right font-semibold">{eur.format(row.cost)}</td>
               <td className="px-4 py-3 text-right font-semibold">{eur.format(row.value)}</td>
@@ -145,7 +145,7 @@ export default function AllocationBreakdownTable({ positions, loading }: Props) 
   const aggregatedRows = computeAggregatedRows(rows);
 
   return (
-    <section className="space-y-3 rounded-2xl border border-[#1e1e35] bg-[#07070e] p-4">
+    <section className="space-y-3 rounded-2xl border border-[#334155] bg-black p-4">
       <header>
         <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Allocation breakdown</p>
         <h3 className="text-xl font-semibold text-white sm:text-2xl">Cost vs Value by Type</h3>

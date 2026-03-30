@@ -10,7 +10,7 @@ export default function PositionCard({ position }: PositionCardProps) {
   const isDailyPositive = position.daily_change_amount >= 0;
 
   return (
-    <article className="rounded-2xl border border-[#252545] bg-[#04040a] p-4">
+    <article className="rounded-2xl border border-[#334155] bg-black p-4">
       <header className="flex items-start justify-between gap-3">
         <div>
           <p className="text-xs uppercase tracking-[0.14em] text-neutral-400">{position.asset_type}</p>
@@ -41,7 +41,7 @@ export default function PositionCard({ position }: PositionCardProps) {
         </p>
       </div>
 
-      <div className="mt-4 grid gap-2 rounded-xl border border-[#1e1e35] bg-[#07070e] p-3 text-sm">
+      <div className="mt-4 grid gap-2 rounded-xl border border-[#334155] bg-black p-3 text-sm">
         <p className="flex justify-between text-neutral-300">
           <span>Total Cost</span>
           <span className="font-semibold text-white">{eur.format(position.total_cost)}</span>

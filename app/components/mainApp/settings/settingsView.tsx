@@ -5,8 +5,10 @@ import PortfolioSettings from "@/app/components/mainApp/settings/portfolioSettin
 import NotificationSettings from "@/app/components/mainApp/settings/notificationSettings";
 import DataManagement from "@/app/components/mainApp/settings/dataManagement";
 import IntegrationSettings from "@/app/components/mainApp/settings/integrationSettings";
+import TwoFactorSettings from "@/app/components/mainApp/settings/twoFactorSettings";
 import { usePortfolio } from "@/app/components/mainApp/portfolioContext";
 import { usePortfolios } from "@/app/hooks/api/usePortfolios";
+import { useAuth } from "@/app/hooks/api/useAuth";
 
 const defaultNotifications = {
   dailyPriceUpdate: false,
@@ -24,6 +26,7 @@ const staticIntegrations = [
 export default function SettingsView() {
   const { selectedPortfolioId, portfolios } = usePortfolio();
   const { update } = usePortfolios();
+  const { token } = useAuth();
   const [notifications, setNotifications] = useState(defaultNotifications);
 
   const selectedPortfolio = portfolios.find((p) => p.id === selectedPortfolioId) ?? null;
@@ -38,9 +41,9 @@ export default function SettingsView() {
   }
 
   return (
-    <div className="w-full flex-1 overflow-y-auto rounded-3xl border border-[#16162a] bg-[#04040a] p-3 sm:p-5">
+    <div className="w-full flex-1 overflow-y-auto rounded-3xl border border-[#334155] bg-black p-3 sm:p-5">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4">
-        <header className="rounded-2xl border border-[#1e1e35] bg-[#07070e] p-4">
+        <header className="rounded-2xl border border-[#334155] bg-black p-4">
           <p className="text-xs font-medium tracking-[0.08em] text-neutral-400">Settings</p>
           <h1 className="text-xl font-semibold text-white sm:text-2xl">Portfolio Configuration</h1>
         </header>
@@ -60,6 +63,7 @@ export default function SettingsView() {
         <section className="grid gap-4 xl:grid-cols-2">
           <NotificationSettings state={notifications} onToggle={handleToggle} />
           <IntegrationSettings rows={staticIntegrations} />
+          <TwoFactorSettings token={token} />
         </section>
 
         <DataManagement />

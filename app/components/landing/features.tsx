@@ -39,11 +39,6 @@ const features: FeatureItem[] = [
 		icon: "alerts",
 	},
 	{
-		title: "Tax View",
-		description: "Keep realized gains and loss-harvesting opportunities visible year-round. Tax season gets easier.",
-		icon: "taxes",
-	},
-	{
 		title: "Benchmark Comparison",
 		description: "Measure your portfolio against indexes that matter to you. Know if you are beating your baseline.",
 		icon: "benchmarks",
