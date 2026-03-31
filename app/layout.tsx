@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -109,9 +109,9 @@ export const metadata: Metadata = {
     "max-video-preview": -1,
   },
   icons: {
-    icon: "/logo/LogoMile.svg",
-    shortcut: "/logo/LogoMile.svg",
-    apple: "/logo/LogoMile.svg",
+    icon: "/logo/LogoMileWhite.svg",
+    shortcut: "/logo/LogoMileWhite.svg",
+    apple: "/logo/LogoMileWhite.svg",
   },
   manifest: "/manifest.json",
   appleWebApp: {
@@ -119,11 +119,12 @@ export const metadata: Metadata = {
     statusBarStyle: "black-translucent",
     title: siteName,
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5,
-  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({
