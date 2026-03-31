@@ -24,10 +24,18 @@ function buildCsp(nonce: string): string {
     connectSrc.push("ws:", "wss:");
   }
 
-  const scriptSrc = [`'nonce-${nonce}'`, "'strict-dynamic'", "'self'"];
-  if (isDev) {
-    scriptSrc.push("'unsafe-eval'");
-  }
+  // Permitir scripts y estilos de self y de _next/static y _next/
+  const scriptSrc = [
+    "'self'",
+    "'unsafe-inline'", // Next.js puede inyectar inline scripts
+    "https:",
+    "'unsafe-eval'" // Necesario para desarrollo, puedes quitarlo en prod si no usas eval
+  ];
+  const styleSrc = [
+    "'self'",
+    "'unsafe-inline'",
+    "https:"
+  ];
 
   const directives = [
     "default-src 'self'",
@@ -40,16 +48,16 @@ function buildCsp(nonce: string): string {
     "media-src 'self'",
     "img-src 'self' data: blob: https:",
     "font-src 'self' data:",
-    "style-src 'self' 'unsafe-inline'",
-    `script-src ${scriptSrc.join(" ")}`,
-    `connect-src ${connectSrc.join(" ")}`,
+    `style-src ${styleSrc.join(' ')}`,
+    `script-src ${scriptSrc.join(' ')}`,
+    `connect-src ${connectSrc.join(' ')}`,
   ];
 
   if (!isDev) {
     directives.push("upgrade-insecure-requests");
   }
 
-  return directives.join("; ");
+  return directives.join('; ');
 }
 
 export function middleware(request: NextRequest) {
