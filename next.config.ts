@@ -107,7 +107,7 @@ const nextConfig: NextConfig = {
               "form-action 'self'",
               "frame-ancestors 'none'",
               "object-src 'none'",
-              "frame-src 'none'",
+              "frame-src 'self' https://accounts.google.com/",
               "manifest-src 'self'",
               "media-src 'self'",
               "img-src 'self' data: blob: https: cdn.jsdelivr.net cdnjs.cloudflare.com unpkg.com tradingview.com",
@@ -126,7 +126,7 @@ const nextConfig: NextConfig = {
           { key: "X-DNS-Prefetch-Control", value: "off" },
           { key: "X-Permitted-Cross-Domain-Policies", value: "none" },
           { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-          { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
+          { key: "Cross-Origin-Resource-Policy", value: "same-origin-allow-popups" },
           { key: "Origin-Agent-Cluster", value: "?1" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           {

@@ -19,6 +19,7 @@ export type UserResponse = {
   id: number;
   email: string;
   name: string;
+  two_factor_enabled?: boolean;
   created_at: ISODateTime;
 };
 

@@ -177,7 +177,15 @@ export const apiClient = {
   health: () => request<string>("/health"),
 
   getGoogleAuthUrl: (mode: "login" | "register") => buildGoogleAuthUrl(mode),
-
+  
+  //Send the google login token to the backend through the api
+  googleAuth: (idToken: string) =>
+    request<AuthResponse>("/api/auth/google", {
+      method: "POST",
+      body: { id_token: idToken },
+  }),
+    
+  //Send the registry data
   register: (payload: RegisterRequest) =>
     request<AuthResponse>("/api/auth/register", {
       method: "POST",
