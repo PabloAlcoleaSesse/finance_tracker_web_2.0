@@ -373,7 +373,7 @@ export default function LandingHeroClient({
   return (
     <section
       id={sectionId}
-      className="relative m-10 flex h-[calc(100vh-4rem)] w-[calc(100vw-4rem)] shrink-0 items-center justify-center overflow-hidden rounded-3xl border border-white/15 text-center md:m-6 md:h-[calc(100vh-3rem)] md:w-[calc(100vw-3rem)]"
+      className="relative flex h-screen w-screen shrink-0 items-center justify-center overflow-hidden text-center lg:m-6 lg:h-[calc(100vh-3rem)] lg:w-[calc(100vw-3rem)] lg:rounded-3xl lg:border lg:border-white/15"
     >
       <div className="hero-gradient-bg" aria-hidden="true" />
       <HeroThreeGradient />
