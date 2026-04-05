@@ -116,6 +116,7 @@ export default function LoginView() {
                       if (credentialResponse.credential) {
                         try {
                           await loginWithGoogle(credentialResponse.credential);
+                          router.push("/mainApp?view=dashboard");
                         } catch (error) {
                           console.error("Google sign-in failed:", error);
                         }
