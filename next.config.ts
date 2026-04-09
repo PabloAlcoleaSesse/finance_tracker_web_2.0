@@ -114,7 +114,7 @@ const nextConfig: NextConfig = {
               "font-src 'self' data: fonts.gstatic.com cdn.jsdelivr.net",
               "style-src 'self' 'unsafe-inline' https: fonts.googleapis.com cdn.jsdelivr.net cdnjs.cloudflare.com unpkg.com tradingview.com",
               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https: cdn.jsdelivr.net cdnjs.cloudflare.com unpkg.com tradingview.com",
-              "connect-src 'self' https: cdn.jsdelivr.net cdnjs.cloudflare.com unpkg.com tradingview.com",
+              "connect-src 'self' http: https: cdn.jsdelivr.net cdnjs.cloudflare.com unpkg.com tradingview.com",
             ].join("; "),
           },
           {
@@ -125,7 +125,7 @@ const nextConfig: NextConfig = {
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-DNS-Prefetch-Control", value: "off" },
           { key: "X-Permitted-Cross-Domain-Policies", value: "none" },
-          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+          { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
           { key: "Cross-Origin-Resource-Policy", value: "same-origin-allow-popups" },
           { key: "Origin-Agent-Cluster", value: "?1" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
